@@ -20,7 +20,6 @@ namespace CSharpContracted.Repositories
       SELECT * FROM jobs 
       ").ToList();
     }
-
     public Job FindById(int id)
     {
       return _db.Query<Job>(@"
@@ -33,7 +32,6 @@ namespace CSharpContracted.Repositories
       job.Id = id;
       return job;
     }
-
     public bool Delete(int id)
     {
       int success = _db.Execute(@"
@@ -41,8 +39,6 @@ namespace CSharpContracted.Repositories
       ", new { id });
       return success > 0;
     }
-
-
     public Job Update(Job job)
     {
       _db.Execute(@"
