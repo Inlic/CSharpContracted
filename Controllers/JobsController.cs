@@ -10,6 +10,12 @@ namespace CSharpContracted.Controllers
   public class JobsController : ControllerBase
   {
     private readonly JobsService _service;
+
+    public JobsController(JobsService service)
+    {
+      _service = service;
+    }
+
     [HttpGet]
     public ActionResult<IEnumerable<Job>> Get()
     {
@@ -27,7 +33,7 @@ namespace CSharpContracted.Controllers
     {
       try
       {
-        return Ok(_service.FindById());
+        return Ok(_service.FindById(id));
       }
       catch (System.Exception error)
       {
