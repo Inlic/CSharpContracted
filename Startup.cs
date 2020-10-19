@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using CSharpContracted.Repositories;
+using CSharpContracted.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +32,11 @@ namespace CSharpContracted
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddControllers();
+      services.AddScoped<IDbConnection>(x => CreateDBContext());
+      services.AddTransient<JobsRepository>();
+      services.AddTransient<JobsService>();
+      services.AddTransient<ContractorsRepository>();
+      services.AddTransient<ContractorsService>();
     }
 
     private IDbConnection CreateDBContext()
