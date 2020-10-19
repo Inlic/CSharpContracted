@@ -28,7 +28,7 @@ namespace CSharpContracted.Repositories
     public Contractor Create(Contractor contractor)
     {
       int id = _db.ExecuteScalar<int>(@"
-      INSERT INTO contractors(name, address, contact, skills) VALUES(@Name, @Address, @Contact, Skills); SELECT LAST_INSERT_ID();", contractor);
+      INSERT INTO contractors(name, address, contact, skills) VALUES(@Name, @Address, @Contact, @Skills); SELECT LAST_INSERT_ID();", contractor);
       contractor.Id = id;
       return contractor;
     }
@@ -41,12 +41,16 @@ namespace CSharpContracted.Repositories
       return success > 0;
     }
 
-
     public Contractor Update(Contractor contractor)
     {
       _db.Execute(@"
       UPDATE contractors
-      SET name = @Name address = @Address, contact = @Contact, skills = @Skills WHERE id = @Id;", contractor);
+      SET 
+      name = @Name,
+      address = @Address,
+      contact = @Contact,
+      skills = @Skills
+      WHERE id = @Id;", contractor);
       return contractor;
     }
   }
