@@ -7,6 +7,9 @@ namespace CSharpContracted.Models
     public string Description { get; set; }
     public string ContactInfo { get; set; }
     public string StartDate { get; set; }
-
+  }
+  public class JobBidViewModel : Job
+  {
+    public int JobBidId { get; set; }
   }
 }

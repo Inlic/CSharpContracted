@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CSharpContracted.Models;
 using CSharpContracted.Repositories;
@@ -39,6 +40,11 @@ namespace CSharpContracted.Services
       var data = FindById(id);
       _repo.Delete(id);
       return true;
+    }
+
+    internal IEnumerable<ContractorBidViewModel> GetBidsByContractorId(int id)
+    {
+      return _repo.GetBidsByContractorId(id);
     }
   }
 }

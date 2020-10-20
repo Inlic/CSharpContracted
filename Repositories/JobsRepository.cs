@@ -28,7 +28,7 @@ namespace CSharpContracted.Repositories
     public Job Create(Job job)
     {
       int id = _db.ExecuteScalar<int>(@"
-      INSERT INTO jobs(location, description, contact) VALUES(@Location, @Description, @Contact); SELECT LAST_INSERT_ID();", job);
+      INSERT INTO jobs(location, description, contactinfo, startdate) VALUES(@Location, @Description, @ContactInfo,@StartDate); SELECT LAST_INSERT_ID();", job);
       job.Id = id;
       return job;
     }
@@ -43,7 +43,7 @@ namespace CSharpContracted.Repositories
     {
       _db.Execute(@"
       UPDATE jobs
-      SET location = @Location, description = @Description, contact = @Contact WHERE id = @Id;", job);
+      SET location = @Location, description = @Description, contactinfo = @ContactInfo, startdate= @StartDate WHERE id = @Id;", job);
       return job;
     }
   }

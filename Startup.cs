@@ -37,6 +37,10 @@ namespace CSharpContracted
       services.AddTransient<JobsService>();
       services.AddTransient<ContractorsRepository>();
       services.AddTransient<ContractorsService>();
+      services.AddTransient<BidsRepository>();
+      services.AddTransient<BidsService>();
+      services.AddTransient<ReviewsRepository>();
+      services.AddTransient<ReviewsService>();
     }
 
     private IDbConnection CreateDBContext()

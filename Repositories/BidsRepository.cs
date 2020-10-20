@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -39,6 +40,16 @@ namespace CSharpContracted.Repositories
       DELETE FROM bids WHERE id = @id
       ", new { id });
       return success > 0;
+    }
+
+    internal IEnumerable<ContractorBidViewModel> GetBidsByContractorId(int id)
+    {
+      return _db.Query<ContractorBidViewModel>(@"
+      SELECT c.*, b.id AS ContractorBidId, b.bidrate AS ContractorBidRate
+      FROM contractors c
+      JOIN bids b on b.contractorid = c.id
+      WHERE c.id = @id
+      ", new { id });
     }
 
     public Bid Update(Bid bid)

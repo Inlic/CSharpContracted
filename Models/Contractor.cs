@@ -7,4 +7,9 @@ namespace CSharpContracted.Models
     public string ContactType { get; set; }
     public string ContactInfo { get; set; }
   }
+  public class ContractorBidViewModel : Contractor
+  {
+    public int ContractorBidId { get; set; }
+    public double ContractorBidRate { get; set; }
+  }
 }

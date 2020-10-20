@@ -10,10 +10,12 @@ namespace CSharpContracted.Controllers
   public class ContractorsController : ControllerBase
   {
     private readonly ContractorsService _service;
+    private readonly BidsService _bidsService;
 
-    public ContractorsController(ContractorsService service)
+    public ContractorsController(ContractorsService service, BidsService bidsService)
     {
       _service = service;
+      _bidsService = bidsService;
     }
     [HttpGet]
     public ActionResult<IEnumerable<Contractor>> Get()
@@ -39,6 +41,19 @@ namespace CSharpContracted.Controllers
         return BadRequest(error.Message);
       }
     }
+    [HttpGet("{id}/bids")]
+    public ActionResult<IEnumerable<ContractorBidViewModel>> GetBids(int id)
+    {
+      try
+      {
+        return Ok(_bidsService.GetBidsByContractorId(id));
+      }
+      catch (System.Exception error)
+      {
+        return BadRequest(error.Message);
+      }
+    }
+
     [HttpPost]
     public ActionResult<Contractor> Create([FromBody] Contractor contractor)
     {

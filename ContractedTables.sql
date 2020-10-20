@@ -56,7 +56,9 @@ CREATE TABLE IF NOT EXISTS bids(
 );
 
 INSERT INTO bids(jobid, contractorid, bidrate)
-VALUES(1, 1, 4.50);
+VALUES(1, 2, 4.75);
+INSERT INTO bids(jobid, contractorid, bidrate)
+VALUES(2, 2, 9.75);
 
 SELECT * FROM bids;
 
