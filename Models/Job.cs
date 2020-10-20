@@ -5,8 +5,8 @@ namespace CSharpContracted.Models
     public int Id { get; set; }
     public string Location { get; set; }
     public string Description { get; set; }
-    public string Contact { get; set; }
+    public string ContactInfo { get; set; }
+    public string StartDate { get; set; }
 
-    //TODO Type as an enum
   }
 }

@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS jobs(
 );
 
 INSERT INTO jobs(location, description, contactinfo, startdate)
-VALUES("Shelbyville", "Need to Replace a Lemon Tree", "888-3456", "1985-10-15")
+VALUES("Shelbyville", "Need to Replace a Lemon Tree", "888-3456", "1985-10-15");
 
-SELECT * FROM jobs
+SELECT * FROM jobs;
 
 
 CREATE TABLE IF NOT EXISTS contractors(
@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS contractors(
 );
 
 INSERT INTO contractors(name, contacttype, contactinfo)
-VALUES("Slow Jim", "Email", "slowJimmy@Jimbo.jims")
+VALUES("Slow Jim", "Email", "slowJimmy@Jimbo.jims");
 
-SELECT * FROM contractors
+SELECT * FROM contractors;
 
 
 CREATE TABLE IF NOT EXISTS reviews(
@@ -40,24 +40,25 @@ CREATE TABLE IF NOT EXISTS reviews(
 );
 
 INSERT INTO reviews(title, body, rating, date, contractorid)
-VALUES("He was slow but...", "Very thorough job from Slow Jim", "Five out of Five","2019-10-10", 1)
+VALUES("He was slow but...", "Very thorough job from Slow Jim", "Five out of Five","2019-10-10", 1);
 
-SELECT * FROM reviews
+SELECT * FROM reviews;
+
 
 
 CREATE TABLE IF NOT EXISTS bids(
   id int AUTO_INCREMENT NOT NULL,
   jobid int,
   contractorid int,
-  bid decimal(6,2),
+  bidrate decimal(6,2),
 
   PRIMARY KEY (id)
 );
 
-INSERT INTO bids(jobid, contractorid, bid)
-VALUES(1, 1, 4.50)
+INSERT INTO bids(jobid, contractorid, bidrate)
+VALUES(1, 1, 4.50);
 
-SELECT * FROM bids
+SELECT * FROM bids;
 
 
 
