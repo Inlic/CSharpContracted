@@ -36,7 +36,11 @@ CREATE TABLE IF NOT EXISTS reviews(
   rating VARCHAR(255),
   date DATE,
   contractorid int,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  INDEX(contractorid),
+  FOREIGN KEY (contractorid)
+  REFERENCES contractors (id)
+  ON DELETE CASCADE
 );
 
 INSERT INTO reviews(title, body, rating, date, contractorid)
@@ -46,19 +50,28 @@ SELECT * FROM reviews;
 
 
 
-CREATE TABLE IF NOT EXISTS bids(
+CREATE TABLE IF NOT EXISTS bids
+(
   id int AUTO_INCREMENT NOT NULL,
   jobid int,
   contractorid int,
   bidrate decimal(6,2),
 
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+
+  FOREIGN KEY (jobid)
+  REFERENCES jobs (id)
+  ON DELETE CASCADE,
+
+  FOREIGN KEY (contractorid)
+  REFERENCES contractors (id)
+  ON DELETE CASCADE
 );
 
 INSERT INTO bids(jobid, contractorid, bidrate)
-VALUES(1, 2, 4.75);
+VALUES(1, 1, 4.50);
 INSERT INTO bids(jobid, contractorid, bidrate)
-VALUES(2, 2, 9.75);
+VALUES(2, 1, 9.50);
 
 SELECT * FROM bids;
 
