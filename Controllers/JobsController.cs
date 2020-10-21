@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using CSharpContracted.Models;
 using CSharpContracted.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSharpContracted.Controllers
 {
   [Route("/api/[controller]")]
   [ApiController]
+  //[Authorize] // can lock down entire controller here
   public class JobsController : ControllerBase
   {
     private readonly JobsService _service;
@@ -41,6 +43,7 @@ namespace CSharpContracted.Controllers
       }
     }
     [HttpPost]
+    [Authorize] // must be logged in to hit this route
     public ActionResult<Job> Create([FromBody] Job job)
     {
       try
@@ -53,6 +56,7 @@ namespace CSharpContracted.Controllers
       }
     }
     [HttpPut("{id}")]
+    [Authorize]
     public ActionResult<Job> Update([FromBody] Job job, int id)
     {
       try
@@ -66,6 +70,7 @@ namespace CSharpContracted.Controllers
       }
     }
     [HttpDelete("{id}")]
+    [Authorize]
     public ActionResult<bool> Delete(int id)
     {
       try
