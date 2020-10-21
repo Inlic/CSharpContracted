@@ -60,6 +60,8 @@ namespace CSharpContracted
 
       services.AddControllers();
       services.AddScoped<IDbConnection>(x => CreateDBContext());
+      services.AddTransient<ProfilesRepository>();
+      services.AddTransient<ProfilesService>();
       services.AddTransient<JobsRepository>();
       services.AddTransient<JobsService>();
       services.AddTransient<ContractorsRepository>();

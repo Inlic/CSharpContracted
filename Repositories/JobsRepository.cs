@@ -16,9 +16,16 @@ namespace CSharpContracted.Repositories
     }
     public List<Job> Find()
     {
-      return _db.Query<Job>(@"
-      SELECT * FROM jobs 
-      ").ToList();
+      return _db.Query<Job, Profile, Job>(@"
+      SELECT j.*,
+      p.*
+      FROM jobs j
+      JOIN profiles p ON j.creatorid = p.id; 
+      ", (job, profile) =>
+      {
+        job.Creator = profile;
+        return job;
+      }, splitOn: "id").ToList();
     }
     public Job FindById(int id)
     {

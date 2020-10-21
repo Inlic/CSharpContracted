@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodeWorks.Auth0Provider;
 using CSharpContracted.Models;
 using CSharpContracted.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSharpContracted.Controllers
@@ -40,10 +43,14 @@ namespace CSharpContracted.Controllers
       }
     }
     [HttpPost]
-    public ActionResult<Review> Create([FromBody] Review review)
+    [Authorize]
+    public async Task<ActionResult<Review>> Create([FromBody] Review review)
     {
       try
       {
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        review.CreatorId = userInfo.Id;
+        review.Creator = userInfo;
         return Ok(_service.Create(review));
       }
       catch (System.Exception error)
@@ -52,10 +59,14 @@ namespace CSharpContracted.Controllers
       }
     }
     [HttpPut("{id}")]
-    public ActionResult<Review> Update([FromBody] Review review, int id)
+    [Authorize]
+    public async Task<ActionResult<Review>> Update([FromBody] Review review, int id)
     {
       try
       {
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        review.CreatorId = userInfo.Id;
+        review.Creator = userInfo;
         review.Id = id;
         return Ok(_service.Update(review));
       }
@@ -65,11 +76,13 @@ namespace CSharpContracted.Controllers
       }
     }
     [HttpDelete("{id}")]
-    public ActionResult<bool> Delete(int id)
+    [Authorize]
+    public async Task<ActionResult<bool>> Delete(int id)
     {
       try
       {
-        return Ok(_service.Delete(id));
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        return Ok(_service.Delete(id, userInfo.Id));
       }
       catch (System.Exception error)
       {

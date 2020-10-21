@@ -31,12 +31,32 @@ namespace CSharpContracted.Services
     }
     public Review Update(Review review)
     {
-      //TODO Logic to prevent weird behavior with null overrides
+      var original = FindById(review.Id);
+      if (original == null)
+      {
+        throw new System.Exception("Bad Request");
+      }
+      if (original.CreatorId != review.CreatorId)
+      {
+        throw new System.Exception("Invalid Permissions");
+      }
+      review.ContractorId = original.ContractorId;
+      review.Title = review.Title != null ? review.Title : original.Title;
+      review.Body = review.Body != null ? review.Body : original.Body;
+      //NOTE other properties can be tested for as well, but this is just for example
       return _repo.Update(review);
     }
-    public bool Delete(int id)
+    public bool Delete(int id, string userId)
     {
       var data = FindById(id);
+      if (data == null)
+      {
+        throw new System.Exception("Bad Request");
+      }
+      if (data.CreatorId != userId)
+      {
+        throw new System.Exception("Invalid Permissions");
+      }
       _repo.Delete(id);
       return true;
     }

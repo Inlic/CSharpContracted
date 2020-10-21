@@ -8,6 +8,7 @@ namespace CSharpContracted.Models
     public string ContactInfo { get; set; }
     public string StartDate { get; set; }
     public string CreatorId { get; set; }
+    public Profile Creator { get; set; }
   }
   public class JobBidViewModel : Job
   {

@@ -9,5 +9,6 @@ namespace CSharpContracted.Models
     public string Date { get; set; }
     public int ContractorId { get; set; }
     public string CreatorId { get; set; }
+    public Profile Creator { get; set; }
   }
 }
