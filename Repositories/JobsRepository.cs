@@ -29,8 +29,16 @@ namespace CSharpContracted.Repositories
     }
     public Job FindById(int id)
     {
-      return _db.Query<Job>(@"
-      SELECT * FROM jobs WHERE id = @id", new { id }).FirstOrDefault();
+      return _db.Query<Job, Profile, Job>(@"
+      SELECT j.*,
+      p.* 
+      FROM jobs j
+      JOIN profiles p on j.creatorid = p.id 
+      WHERE j.id = @id", (job, profile) =>
+      {
+        job.Creator = profile;
+        return job;
+      }, new { id }, splitOn: "id").FirstOrDefault();
     }
     public Job Create(Job job)
     {
@@ -42,7 +50,9 @@ namespace CSharpContracted.Repositories
     public bool Delete(int id)
     {
       int success = _db.Execute(@"
-      DELETE FROM jobs WHERE id = @id
+      DELETE 
+      FROM jobs 
+      WHERE id = @id
       ", new { id });
       return success > 0;
     }
@@ -50,7 +60,11 @@ namespace CSharpContracted.Repositories
     {
       _db.Execute(@"
       UPDATE jobs
-      SET location = @Location, description = @Description, contactinfo = @ContactInfo, startdate= @StartDate WHERE id = @Id;", job);
+      SET location = @Location,
+       description = @Description,
+        contactinfo = @ContactInfo,
+         startdate= @StartDate 
+      WHERE id = @Id;", job);
       return job;
     }
   }

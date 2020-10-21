@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using CodeWorks.Auth0Provider;
 using CSharpContracted.Models;
 using CSharpContracted.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -44,10 +46,13 @@ namespace CSharpContracted.Controllers
     }
     [HttpPost]
     [Authorize] // must be logged in to hit this route
-    public ActionResult<Job> Create([FromBody] Job job)
+    public async Task<ActionResult<Job>> Create([FromBody] Job job)
     {
       try
       {
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        job.CreatorId = userInfo.Id;
+        job.Creator = userInfo;
         return Ok(_service.Create(job));
       }
       catch (System.Exception error)
@@ -57,10 +62,13 @@ namespace CSharpContracted.Controllers
     }
     [HttpPut("{id}")]
     [Authorize]
-    public ActionResult<Job> Update([FromBody] Job job, int id)
+    public async Task<ActionResult<Job>> Update([FromBody] Job job, int id)
     {
       try
       {
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        job.CreatorId = userInfo.Id;
+        job.Creator = userInfo;
         job.Id = id;
         return Ok(_service.Update(job));
       }
@@ -71,11 +79,12 @@ namespace CSharpContracted.Controllers
     }
     [HttpDelete("{id}")]
     [Authorize]
-    public ActionResult<bool> Delete(int id)
+    public async Task<ActionResult<bool>> Delete(int id)
     {
       try
       {
-        return Ok(_service.Delete(id));
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        return Ok(_service.Delete(id, userInfo.Id));
       }
       catch (System.Exception error)
       {

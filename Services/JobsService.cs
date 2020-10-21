@@ -31,12 +31,22 @@ namespace CSharpContracted.Services
     }
     public Job Update(Job job)
     {
-      //TODO Logic to prevent weird behavior with null overrides
+      var data = FindById(job.Id);
+      if (data.CreatorId != job.CreatorId)
+      {
+        throw new System.Exception("Invalid Edit Permissions");
+      }
+      job.Description = job.Description != null ? job.Description : data.Description;
+      job.Location = job.Location != null ? job.Location : data.Location;
       return _repo.Update(job);
     }
-    public bool Delete(int id)
+    public bool Delete(int id, string userId)
     {
       var data = FindById(id);
+      if (data.CreatorId != userId)
+      {
+        throw new System.Exception("Invalid Edit Permissions");
+      }
       _repo.Delete(id);
       return true;
     }
