@@ -28,7 +28,7 @@ namespace CSharpContracted.Repositories
     public Review Create(Review review)
     {
       int id = _db.ExecuteScalar<int>(@"
-      INSERT INTO reviews(title, body, rating, date, contractorid) VALUES(@Title, @Body, @Rating, @Date, @ContractorId); SELECT LAST_INSERT_ID();", review);
+      INSERT INTO reviews(title, body, rating, date, contractorid, creatorid) VALUES(@Title, @Body, @Rating, @Date, @ContractorId, @CreatorId); SELECT LAST_INSERT_ID();", review);
       review.Id = id;
       return review;
     }
@@ -42,7 +42,7 @@ namespace CSharpContracted.Repositories
     }
 
     public Review Update(Review review)
-    { //TODO update this sql
+    {
       _db.Execute(@"
       UPDATE reviews
       SET 

@@ -8,5 +8,6 @@ namespace CSharpContracted.Models
     public string Rating { get; set; }
     public string Date { get; set; }
     public int ContractorId { get; set; }
+    public string CreatorId { get; set; }
   }
 }

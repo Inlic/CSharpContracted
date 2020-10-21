@@ -28,7 +28,7 @@ namespace CSharpContracted.Repositories
     public Job Create(Job job)
     {
       int id = _db.ExecuteScalar<int>(@"
-      INSERT INTO jobs(location, description, contactinfo, startdate) VALUES(@Location, @Description, @ContactInfo,@StartDate); SELECT LAST_INSERT_ID();", job);
+      INSERT INTO jobs(location, description, contactinfo, startdate,creatorid) VALUES(@Location, @Description, @ContactInfo,@StartDate, @CreatorId); SELECT LAST_INSERT_ID();", job);
       job.Id = id;
       return job;
     }
