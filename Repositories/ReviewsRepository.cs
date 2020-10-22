@@ -15,15 +15,30 @@ namespace CSharpContracted.Repositories
     }
     public List<Review> Find()
     {
-      return _db.Query<Review>(@"
-      SELECT * FROM reviews 
-      ").ToList();
+      return _db.Query<Review, Profile, Review>(@"
+      SELECT r.*,
+      p.*
+      FROM reviews r
+      JOIN profiles p ON r.creatorid = p.id;
+      ", (review, profile) =>
+      {
+        review.Creator = profile;
+        return review;
+      }, splitOn: "id").ToList();
     }
 
     public Review FindById(int id)
     {
-      return _db.Query<Review>(@"
-      SELECT * FROM reviews WHERE id = @id", new { id }).FirstOrDefault();
+      return _db.Query<Review, Profile, Review>(@"
+      SELECT r.*,
+      p.*
+       FROM reviews r
+       JOIN profiles p on r.creatorid = p.id
+       WHERE r.id = @id", (review, profile) =>
+       {
+         review.Creator = profile;
+         return review;
+       }, new { id }, splitOn: "id").FirstOrDefault();
     }
     public Review Create(Review review)
     {
