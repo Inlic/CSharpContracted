@@ -1,6 +1,6 @@
 import Axios from "axios";
 export const api = Axios.create({
-  baseURL: "https://cw-bloggr.herokuapp.com/api/",
+  baseURL: "https://localhost:5001/api/",
   timeout: 3000
 });
 
